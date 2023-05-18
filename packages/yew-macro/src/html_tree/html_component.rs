@@ -9,6 +9,7 @@ use super::{HtmlChildrenTree, TagTokens};
 use crate::is_ide_completion;
 use crate::props::ComponentProps;
 
+#[derive(Debug)]
 pub struct HtmlComponent {
     ty: Type,
     props: ComponentProps,
@@ -195,6 +196,7 @@ impl Parse for HtmlComponentOpen {
     }
 }
 
+#[derive(Debug)]
 struct HtmlComponentClose {
     tag: TagTokens,
     ty: Type,

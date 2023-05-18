@@ -9,6 +9,7 @@ use syn::{Expr, Token};
 use super::ToNodeIterator;
 use crate::PeekValue;
 
+#[derive(Debug)]
 pub struct HtmlIterable(Expr);
 
 impl PeekValue<()> for HtmlIterable {

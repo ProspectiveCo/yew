@@ -12,6 +12,7 @@ use crate::props::{ClassesForm, ElementProps, Prop, PropDirective};
 use crate::stringify::{Stringify, Value};
 use crate::{is_ide_completion, non_capitalized_ascii, Peek, PeekValue};
 
+#[derive(Debug)]
 pub struct HtmlElement {
     pub name: TagName,
     pub props: ElementProps,
@@ -497,6 +498,7 @@ fn wrap_attr_value<T: ToTokens>(value: T) -> TokenStream {
     }
 }
 
+#[derive(Debug)]
 pub struct DynamicName {
     at: Token![@],
     expr: Option<Block>,
@@ -544,6 +546,7 @@ enum TagKey {
     Expr,
 }
 
+#[derive(Debug)]
 pub enum TagName {
     Lit(HtmlDashedName),
     Expr(DynamicName),

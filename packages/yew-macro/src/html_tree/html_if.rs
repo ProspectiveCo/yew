@@ -9,11 +9,12 @@ use syn::{Expr, Token};
 use super::{HtmlRootBraced, ToNodeIterator};
 use crate::PeekValue;
 
+#[derive(Debug)]
 pub struct HtmlIf {
-    if_token: Token![if],
-    cond: Box<Expr>,
-    then_branch: HtmlRootBraced,
-    else_branch: Option<(Token![else], Box<HtmlRootBracedOrIf>)>,
+    pub if_token: Token![if],
+    pub cond: Box<Expr>,
+    pub then_branch: HtmlRootBraced,
+    pub else_branch: Option<(Token![else], Box<HtmlRootBracedOrIf>)>,
 }
 
 impl PeekValue<()> for HtmlIf {
@@ -110,6 +111,7 @@ impl ToNodeIterator for HtmlIf {
     }
 }
 
+#[derive(Debug)]
 pub enum HtmlRootBracedOrIf {
     Branch(HtmlRootBraced),
     If(HtmlIf),

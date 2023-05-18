@@ -38,6 +38,7 @@ pub enum HtmlType {
     Empty,
 }
 
+#[derive(Debug)]
 pub enum HtmlTree {
     Block(Box<HtmlBlock>),
     Component(Box<HtmlComponent>),
@@ -127,7 +128,25 @@ impl ToTokens for HtmlTree {
             HtmlTree::Element(tag) => tag.to_tokens(tokens),
             HtmlTree::List(list) => list.to_tokens(tokens),
             HtmlTree::Block(block) => block.to_tokens(tokens),
-            HtmlTree::If(block) => block.to_tokens(tokens),
+            HtmlTree::If(block) => {
+                // // let HtmlIf {
+                // //     if_token,
+                // //     cond,
+                // //     then_branch,
+                // //     else_branch,
+                // // } = self;
+                // // let default_else_branch = syn::parse_quote! { {} };
+                // // let else_branch = else_branch
+                // //     .as_ref()
+                // //     .map(|(_, branch)| branch)
+                // //     .unwrap_or(&default_else_branch);
+                // // let new_tokens = quote_spanned! {if_token.span()=>
+                // //     if #cond #then_branch else #else_branch
+                // // };
+
+                // tokens.extend(new_tokens);
+                block.to_tokens(tokens);
+            }
         }
     }
 }
@@ -210,6 +229,7 @@ impl ToNodeIterator for HtmlTree {
     }
 }
 
+#[derive(Debug)]
 pub struct HtmlChildrenTree(pub Vec<HtmlTree>);
 
 impl HtmlChildrenTree {
@@ -256,8 +276,39 @@ impl HtmlChildrenTree {
                     ::std::iter::Extend::extend(&mut #vec_ident, #node_iterator_stream);
                 }
             } else {
-                quote_spanned! {child.span()=>
-                    #vec_ident.push(::std::convert::Into::into(#child));
+                match child {
+                    HtmlTree::If(html_if) => {
+                        let HtmlIf {
+                            // if_token,
+                            cond,
+                            then_branch,
+                            else_branch,
+                            ..
+                        } = &**html_if;
+                        // let default_else_branch = syn::parse_quote! { {} };
+                        let else_branch = else_branch.as_ref().map(|(_, branch)| branch);
+                        if else_branch.is_some() {
+                            quote_spanned! {child.span()=>
+                                #vec_ident.push(::std::convert::Into::into(#child));
+                            }
+                        } else {
+                            quote_spanned! {child.span()=>
+                                if #cond {
+                                    #vec_ident.push(::std::convert::Into::into(#then_branch))
+                                }
+                            }
+                        }
+                        // if else_
+                        // let new_tokens = quote_spanned! {if_token.span()=>
+                        //     if #cond #then_branch else #else_branch
+                        // };
+
+                        // tokens.extend(new_tokens);
+                        //  todo!()
+                    }
+                    other => quote_spanned! {child.span()=>
+                        #vec_ident.push(::std::convert::Into::into(#child));
+                    },
                 }
             }
         });
@@ -288,6 +339,7 @@ impl ToTokens for HtmlChildrenTree {
     }
 }
 
+#[derive(Debug)]
 pub struct HtmlRootBraced {
     brace: token::Brace,
     children: HtmlChildrenTree,

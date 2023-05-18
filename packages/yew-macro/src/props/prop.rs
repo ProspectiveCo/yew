@@ -11,11 +11,12 @@ use syn::{braced, Block, Expr, ExprBlock, ExprMacro, ExprPath, ExprRange, Stmt, 
 use crate::html_tree::HtmlDashedName;
 use crate::stringify::Stringify;
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum PropDirective {
     ApplyAsProperty(Token![~]),
 }
 
+#[derive(Debug)]
 pub struct Prop {
     pub directive: Option<PropDirective>,
     pub label: HtmlDashedName,
@@ -217,6 +218,7 @@ fn advance_until_next_dot2(input: &ParseBuffer) -> syn::Result<()> {
 ///
 /// The list may contain multiple props with the same label.
 /// Use `check_no_duplicates` to ensure that there are no duplicates.
+#[derive(Debug)]
 pub struct PropList(Vec<Prop>);
 impl PropList {
     /// Create a new `SortedPropList` from a vector of props.
@@ -317,7 +319,7 @@ impl Deref for PropList {
     }
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct SpecialProps {
     pub node_ref: Option<Prop>,
     pub key: Option<Prop>,
@@ -370,6 +372,7 @@ impl SpecialProps {
     }
 }
 
+#[derive(Debug)]
 pub struct Props {
     pub special: SpecialProps,
     pub prop_list: PropList,

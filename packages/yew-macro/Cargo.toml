@@ -29,3 +29,4 @@ prettyplease = "0.2"
 rustversion = "1"
 trybuild = "1"
 yew = { path = "../yew" }
+tokio = { version = "1", features = ["full"] }

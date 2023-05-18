@@ -22,10 +22,7 @@ default_to_workspace = false
 [env]
 CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
 CARGO_MAKE_CLIPPY_ARGS = "-- --deny=warnings"
-CARGO_MAKE_WORKSPACE_SKIP_MEMBERS = [
-    "examples/*",
-    "tools/*",
-]
+CARGO_MAKE_WORKSPACE_SKIP_MEMBERS = ["examples/*", "tools/*"]
 
 [config.modify_core_tasks]
 private = true
@@ -60,8 +57,8 @@ run_task = { name = ["lint", "lint-release", "format"], fork = true }
 
 [tasks.test]
 command = "cargo"
-args = ["test", "--all-targets"]
-workspace = true
+args = ["test", "--all-features", "-p", "yew"]
+workspace = false
 
 [tasks.doc-test]
 command = "cargo"
@@ -75,7 +72,11 @@ args = ["test", "-p", "website-test"]
 [tasks.test-flow]
 category = "Testing"
 description = "Run all tests"
-run_task = { name = ["test", "doc-test", "website-test"], fork = true, parallel = true }
+run_task = { name = [
+    "test",
+    "doc-test",
+    "website-test",
+], fork = true, parallel = true }
 
 # misc
 

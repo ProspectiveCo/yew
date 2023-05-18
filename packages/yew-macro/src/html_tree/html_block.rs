@@ -7,11 +7,13 @@ use syn::{braced, token};
 use super::{HtmlIterable, HtmlNode, ToNodeIterator};
 use crate::PeekValue;
 
+#[derive(Debug)]
 pub struct HtmlBlock {
     pub content: BlockContent,
     brace: token::Brace,
 }
 
+#[derive(Debug)]
 pub enum BlockContent {
     Node(Box<HtmlNode>),
     Iterable(Box<HtmlIterable>),

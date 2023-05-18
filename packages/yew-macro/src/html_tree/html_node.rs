@@ -9,6 +9,7 @@ use super::ToNodeIterator;
 use crate::stringify::Stringify;
 use crate::PeekValue;
 
+#[derive(Debug)]
 pub enum HtmlNode {
     Literal(Box<Lit>),
     Expression(Box<Expr>),

@@ -10,6 +10,7 @@ use super::{HtmlChildrenTree, TagTokens};
 use crate::props::Prop;
 use crate::{Peek, PeekValue};
 
+#[derive(Debug)]
 pub struct HtmlList {
     open: HtmlListOpen,
     pub children: HtmlChildrenTree,
@@ -86,6 +87,7 @@ impl ToTokens for HtmlList {
     }
 }
 
+#[derive(Debug)]
 struct HtmlListOpen {
     tag: TagTokens,
     props: HtmlListProps,
@@ -120,6 +122,7 @@ impl Parse for HtmlListOpen {
     }
 }
 
+#[derive(Debug)]
 struct HtmlListProps {
     key: Option<Expr>,
 }
@@ -147,6 +150,7 @@ impl Parse for HtmlListProps {
     }
 }
 
+#[derive(Debug)]
 struct HtmlListClose(TagTokens);
 impl HtmlListClose {
     fn to_spanned(&self) -> impl ToTokens {

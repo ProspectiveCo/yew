@@ -3444,6 +3444,7 @@ dependencies = [
  "quote",
  "rustversion",
  "syn 2.0.15",
+ "tokio",
  "trybuild",
  "yew",
 ]

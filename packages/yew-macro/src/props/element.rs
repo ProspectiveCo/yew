@@ -6,6 +6,7 @@ use syn::{Expr, ExprTuple};
 
 use super::{Prop, Props, SpecialProps};
 
+#[derive(Debug)]
 pub enum ClassesForm {
     Tuple(ExprTuple),
     Single(Box<Expr>),
@@ -19,6 +20,7 @@ impl ClassesForm {
     }
 }
 
+#[derive(Debug)]
 pub struct ElementProps {
     pub attributes: Vec<Prop>,
     pub listeners: Vec<Prop>,
